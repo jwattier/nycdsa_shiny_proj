@@ -7,17 +7,21 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny)
-
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
 
-    output$nyc_school_map <- renderLeaflet({
-        nyc_pk %>% 
-            leaflet() %>% 
-            addTiles() %>% 
-            addMarkers(clusterOptions = markerClusterOptions())
-
-    })
+    # output$nyc_school_map <- renderLeaflet({
+    #     nyc_pk %>% 
+    #         leaflet() %>% 
+    #         addTiles() %>% 
+    #         addMarkers(clusterOptions = markerClusterOptions())
+    # 
+    # })
+    
+    output$nyc_pk_analysis <- renderLeaflet({
+      tm <- tm_shape(map_and_pk_and_pop) +
+        tm_polygons("seats_per_1000", id = "nta_code", palette = "Greens")
+      tmap_leaflet(tm)
+    })    
 
 })

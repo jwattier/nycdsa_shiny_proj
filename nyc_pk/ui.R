@@ -7,7 +7,6 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
@@ -23,7 +22,8 @@ shinyUI(fluidPage(
 
         # Show a leaflet map of NYC pre-K school locations
         mainPanel(
-            leafletOutput("nyc_school_map")
+            #leafletOutput("nyc_school_map"),
+            leafletOutput("nyc_pk_analysis")
         )
     )
 ))
