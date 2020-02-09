@@ -1,29 +1,38 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
-
 # Define UI for application that draws a histogram
-shinyUI(fluidPage(
+shinyUI(dashboardPage(
+    dashboardHeader(title = "NYC Pre-K School Location Analysis"),
 
-    # Application title
-    titlePanel("NYC Pre-K School Location Analysis"),
+    dashboardSidebar(
+        sidebarMenu(
+            #menuItem(text = "Map", tabName = "map", icon = icon("map")),
+            menuItem(text = "Chart", tabName = "chart", icon = icon("chart-area")),
+            menuItem(text = "Charts",
+                     menuSubItem(
+                         text = "Chart 1",
+                         tabName = "chart_1"
+                     ),
+                     menuSubItem(
+                         text = "Chart 2",
+                         tabName = "chart_2"
+                     ))
+        )
 
+        # numericInput(inputID = "min_pop", label = "Select Minimum Population Threshold",
+        #              value = 12000, min = 0, max = 50000, step = 2000
+        #                )
+    ),
+    dashboardBody(
+        fluidRow(box(
+            status = "primary",
+            width = 12,
+            plotOutput("nyc_seats_hist")
+        )),
+        fluidRow(
+            width = 12,
+            plotOutput("nyc_seats_box_by_bor")
+        )
 
-    sidebarLayout(
-        sidebarPanel(
-
-        ),
-
-        # Show a leaflet map of NYC pre-K school locations
-        mainPanel(
-            #leafletOutput("nyc_school_map"),
-            leafletOutput("nyc_pk_analysis")
         )
     )
-))
+)
+# )

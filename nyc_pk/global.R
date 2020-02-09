@@ -9,8 +9,14 @@ library(tmap)
 library(tmaptools)
 library(maps)
 library(tidyverse)
+library(bbplot)
+library(extrafont)
+library(ggthemr)
 
+loadfonts(device = "win")
+ggthemr::ggthemr("earth")
 options(scipen = 999)
+
 
 # collect file paths
 nyc_pop_by_nta_fp <- "./data/New_York_City_Population_By_Neighborhood_Tabulation_Areas.csv"
