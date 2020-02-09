@@ -14,7 +14,12 @@ shinyUI(dashboardPage(
                      menuSubItem(
                          text = "Bottom Area Detail",
                          tabName = "bmt_area_dtl"
-                     ))
+                     )),
+            selectizeInput(inputId = "bor",
+                           label = "Boroughs to Show",
+                           choices = boroughs,
+                           selected = "All"
+                           )
         )
 
         # numericInput(inputID = "min_pop", label = "Select Minimum Population Threshold",
@@ -25,9 +30,10 @@ shinyUI(dashboardPage(
         tabItems(
             tabItem(tabName = "map",
                     fluidPage(
-                        leafletOutput("nyc_pk_analysis"),
-                        br(),
-                        checkboxInput("show", "Show Bottom", value = FALSE)
+                        title = "NYC PK Map",
+                            leafletOutput("nyc_pk_analysis", height = 800),
+                            br(),
+                            checkboxInput("show", "Show Bottom", value = FALSE)
                         )
                     ),
             tabItem(tabName = "chart",
