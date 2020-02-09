@@ -9,11 +9,11 @@ library(tmap)
 library(tmaptools)
 library(maps)
 library(tidyverse)
-library(bbplot)
+# library(bbplot)
 library(extrafont)
 library(ggthemr)
 
-loadfonts(device = "win")
+# loadfonts(device = "win")
 ggthemr::ggthemr("earth")
 options(scipen = 999)
 

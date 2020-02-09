@@ -24,7 +24,11 @@ shinyUI(dashboardPage(
     dashboardBody(
         tabItems(
             tabItem(tabName = "map",
-                    leafletOutput("nyc_pk_analysis")
+                    fluidPage(
+                        leafletOutput("nyc_pk_analysis"),
+                        br(),
+                        checkboxInput("show", "Show Bottom", value = FALSE)
+                        )
                     ),
             tabItem(tabName = "chart",
                 fluidRow(box(

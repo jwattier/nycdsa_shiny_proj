@@ -14,12 +14,27 @@ shinyServer(function(input, output, session) {
     # 
     output$nyc_pk_analysis <- renderLeaflet({
       leaflet() %>% 
+        setView(lat = 40.7128, lng = -74.0060, zoom = 10) %>% 
         addProviderTiles("CartoDB.Positron") %>% 
         addPolygons(data = map_and_pk_and_pop, stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
                     color = ~pk_seats_pal(seats_per_nta)
-        ) %>% 
-        addPolygons(data = bottom_5, stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
-                    color = "red")
+        ) 
+      # %>% 
+      #   addPolygons(data = bottom_5, stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
+      #               color = "red")
+    })
+    
+    # Observe event for show/remove bottom 5 NTAs
+    observeEvent(input$show, {
+      proxy <- leafletProxy("nyc_pk_analysis")
+      if(input$show){
+        proxy %>% 
+          addPolygons(data = bottom_5, stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
+                      color = "red", layerId = LETTERS[1:5])
+      } else {
+        proxy %>%
+          removeShape(layerId = LETTERS[1:5])
+      }
     })
 
     output$nyc_seats_hist <- renderPlot({
