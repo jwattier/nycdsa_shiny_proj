@@ -87,11 +87,11 @@ shinyServer(function(input, output, session) {
     
     output$btm_lst <- DT::renderDataTable(
       bottom_spots() %>% 
+        st_drop_geometry(.) %>% # drop geometry b/c select will not exclude
         mutate(., seats_per_1000 = round(seats_per_1000, 2)) %>% 
         arrange(., seats_per_1000) %>% 
         select(., "NTA Name" = nta, "Borough" = borough.y, "Total Population" = population, "Total Schools" = schl_per_nta, 
-               "Total Seat" = seats_per_nta) %>% 
-        st_drop_geometry(.) %>% 
+               "Total Seats" = seats_per_nta, "Seats per 1k" = seats_per_1000) %>% 
         DT::datatable(data = ., rownames = FALSE)
     )
     
