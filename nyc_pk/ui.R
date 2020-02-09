@@ -1,4 +1,4 @@
-# Define UI for application that draws a histogram
+
 shinyUI(dashboardPage(
     dashboardHeader(title = "NYC Pre-K School Location Analysis"),
 
@@ -8,12 +8,12 @@ shinyUI(dashboardPage(
             menuItem(text = "Chart", tabName = "chart", icon = icon("chart-area")),
             menuItem(text = "Charts",
                      menuSubItem(
-                         text = "Chart 1",
-                         tabName = "chart_1"
+                         text = "Bottom Area List",
+                         tabName = "btm_area_tbl"
                      ),
                      menuSubItem(
-                         text = "Chart 2",
-                         tabName = "chart_2"
+                         text = "Bottom Area Detail",
+                         tabName = "bmt_area_dtl"
                      ))
         )
 
@@ -22,14 +22,23 @@ shinyUI(dashboardPage(
         #                )
     ),
     dashboardBody(
-        fluidRow(box(
-            status = "primary",
-            width = 12,
-            plotOutput("nyc_seats_hist")
-        )),
-        fluidRow(
-            width = 12,
-            plotOutput("nyc_seats_box_by_bor")
+        tabItems(
+            tabItem(tabName = "chart",
+                fluidRow(box(
+                    status = "primary",
+                    width = 12,
+                    plotOutput("nyc_seats_hist")
+                    )),
+                fluidRow(
+                    width = 12,
+                    plotOutput("nyc_seats_box_by_bor")
+                    )
+                ),
+            tabItem(tabName = 'btm_area_tbl',
+                    fluidRow(
+                        box(width = 12,
+                            DT::dataTableOutput("btm_nta"))
+                    ))
         )
 
         )

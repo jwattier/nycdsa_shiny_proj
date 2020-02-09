@@ -51,6 +51,12 @@ nyc_nta_sf <- clean_names(dat = nyc_nta_sf)
 # combine map and population information
 map_and_pop <- right_join(x = nyc_pop, y = nyc_nta_sf, by = 'nta_code')
 
+# combine population and pk information (for DT)
+# pk_and_pop <- 
+pk_and_pop <- inner_join(x = pk_by_nta, y = nyc_pop, by = c("nta" = "nta_name")) %>% 
+  select(., borough = borough.y, nta_code, nta_name = nta, total_schools = schl_per_nta,
+         total_seats = seats_per_nta, population) %>% 
+  mutate(., seats_per_1000 = total_seats / (population / 1000))
 
 # combine pk school information together with map_and_pop
 map_and_pk_and_pop <- inner_join(x = pk_by_nta, y = map_and_pop, by = c("nta" = "nta_name.x")) %>% 
