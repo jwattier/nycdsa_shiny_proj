@@ -4,6 +4,7 @@ shinyUI(dashboardPage(
 
     dashboardSidebar(
         sidebarMenu(
+            menuItem(text = "Home", tabName = "home", icon = icon("home")),
             menuItem(text = "Map", tabName = "map", icon = icon("map")),
             menuItem(text = "Chart", tabName = "chart", icon = icon("chart-area")),
             menuItem(text = "Charts",
@@ -28,6 +29,29 @@ shinyUI(dashboardPage(
     ),
     dashboardBody(
         tabItems(
+            tabItem(tabName = "home",
+                    fluidRow(p(
+                        "Hi, welcome to my R Shiny project. This dashboared analyzes the pre-school ('Pre-K') in NYC.
+                        
+                        NYC started the Pre-K program in 2014.
+                        
+                        This analysis combines the latest census from 2010 then pre-school location as of 2018 to
+                        identify areas where there are relatively fewer seats.
+                        ", style="text-align:center; font-family: times"
+                        ),
+                        br(),
+                        # a(href = "https://www.schools.nyc.gov/enrollment/enroll-grade-by-grade/pre-k"
+                        #   , "Here",target="_blank")
+                        # ,style="text-align:center;color:black")
+                        p("For more information please check the",em("NYC's DOE"),"page by clicking",
+                          br(),
+                          a(href="https://www.schools.nyc.gov/enrollment/enroll-grade-by-grade/pre-k", "here",target="_blank")
+                          ,style="text-align:center;color:black")
+                        ,
+                        width = 8
+                    )
+                
+            ),
             tabItem(tabName = "map",
                     fluidPage(
                         title = "NYC PK Map",
