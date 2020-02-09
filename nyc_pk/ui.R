@@ -33,7 +33,7 @@ shinyUI(dashboardPage(
                         title = "NYC PK Map",
                         leafletOutput("nyc_pk_analysis", height = 600),
                         br(),
-                        checkboxInput("show", "Show Lowest", value = FALSE),
+                        checkboxInput("show", "Highlight Lowest", value = FALSE),
                         DT::dataTableOutput("btm_lst")
                         )
                     ),
