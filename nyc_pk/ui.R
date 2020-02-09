@@ -31,9 +31,10 @@ shinyUI(dashboardPage(
             tabItem(tabName = "map",
                     fluidPage(
                         title = "NYC PK Map",
-                            leafletOutput("nyc_pk_analysis", height = 800),
-                            br(),
-                            checkboxInput("show", "Show Bottom", value = FALSE)
+                        leafletOutput("nyc_pk_analysis", height = 600),
+                        br(),
+                        checkboxInput("show", "Show Lowest", value = FALSE),
+                        DT::dataTableOutput("btm_lst")
                         )
                     ),
             tabItem(tabName = "chart",

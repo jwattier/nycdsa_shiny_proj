@@ -85,6 +85,20 @@ shinyServer(function(input, output, session) {
       }
     )
     
+    output$btm_lst <- DT::renderDataTable(
+      bottom_spots() %>% 
+        # filter(., population > 12000) %>%
+        mutate(., "Number of Seats" = round(seats_per_1000, 2)) %>%
+        # mutate(., seats_per_1000 = round(seats_per_1000, 2)) %>% 
+        arrange(., seats_per_1000) %>% 
+        top_n(., n=5) %>%
+        # select(., "NTA Name" = nta, "Borough" = borough.y, "NTA Population" = population, "Total Schools" = schl_per_nta, 
+        #        "Total Seat" = seats_per_nta) %>% 
+        #arrange(., total_seats / population) %>% 
+        DT::datatable(data = ., rownames = FALSE)
+    )
+    
+      
     output$btm_nta <- DT::renderDataTable(
       pk_and_pop %>% 
         filter(., population > 12000) %>%
