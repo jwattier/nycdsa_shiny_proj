@@ -62,3 +62,16 @@ pk_and_pop <- inner_join(x = pk_by_nta, y = nyc_pop, by = c("nta" = "nta_name"))
 map_and_pk_and_pop <- inner_join(x = pk_by_nta, y = map_and_pop, by = c("nta" = "nta_name.x")) %>% 
   mutate(., seats_per_1000 = seats_per_nta / (population / 1000)) %>% 
   st_as_sf(x = ., sf_column_name = "geometry") # has to be converted back to a spatial form data type
+
+
+# set up palette for map
+pk_seats_pal <- colorNumeric(
+  palette = "Blues",
+  domain = map_and_pk_and_pop$seats_per_nta
+)
+
+# highlight bottom 5 ntas -> which we will make programatic later
+bottom_5 <-map_and_pk_and_pop %>% 
+  arrange(., seats_per_1000) %>% 
+  top_n(., n=5) %>% 
+  st_as_sf(x = ., sf_column_name = "geometry")

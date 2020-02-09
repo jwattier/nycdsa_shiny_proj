@@ -4,7 +4,7 @@ shinyUI(dashboardPage(
 
     dashboardSidebar(
         sidebarMenu(
-            #menuItem(text = "Map", tabName = "map", icon = icon("map")),
+            menuItem(text = "Map", tabName = "map", icon = icon("map")),
             menuItem(text = "Chart", tabName = "chart", icon = icon("chart-area")),
             menuItem(text = "Charts",
                      menuSubItem(
@@ -23,6 +23,9 @@ shinyUI(dashboardPage(
     ),
     dashboardBody(
         tabItems(
+            tabItem(tabName = "map",
+                    leafletOutput("nyc_pk_analysis")
+                    ),
             tabItem(tabName = "chart",
                 fluidRow(box(
                     status = "primary",

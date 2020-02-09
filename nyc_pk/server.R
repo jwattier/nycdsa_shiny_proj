@@ -12,14 +12,16 @@ shinyServer(function(input, output, session) {
   # output$hist <-
   
     # 
-    # output$nyc_pk_analysis <- renderLeaflet({
-    #   tm <- tm_shape(map_and_pk_and_pop) +
-    #     tm_polygons("seats_per_1000", id = "nta_code", palette = "Greens")
-    #   plot <- tmap_leaflet(tm)
-    #   plot$elementid <- NULL
-    #   plot
-    # })    
-    # 
+    output$nyc_pk_analysis <- renderLeaflet({
+      leaflet() %>% 
+        addProviderTiles("CartoDB.Positron") %>% 
+        addPolygons(data = map_and_pk_and_pop, stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
+                    color = ~pk_seats_pal(seats_per_nta)
+        ) %>% 
+        addPolygons(data = bottom_5, stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
+                    color = "red")
+    })
+
     output$nyc_seats_hist <- renderPlot({
       ggplot(data = map_and_pk_and_pop, mapping = aes(x = seats_per_1000)) +
         geom_histogram(binwidth = 5, colour = "white", fill = "#1380A1") +
