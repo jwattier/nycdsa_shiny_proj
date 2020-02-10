@@ -9,6 +9,9 @@
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
+  
+  
+  
   main_map <- reactive({
     if(input$bor != 'All'){
       map_and_pk_and_pop <- map_and_pk_and_pop %>% filter(., borough.y == input$bor
@@ -17,6 +20,14 @@ shinyServer(function(input, output, session) {
     else{
       map_and_pk_and_pop <- map_and_pk_and_pop %>% filter(., population > input$pop_cutoff)
     }
+  })
+  
+  num_scale <- reactive({
+    map_tbl <- main_map()
+    pk_seats_pal <- colorNumeric(
+      palette = "Blues",
+      domain = map_tbl$seats_per_nta
+    )
   })
   
   bottom_spots <- reactive({
@@ -29,15 +40,19 @@ shinyServer(function(input, output, session) {
   
   
     output$nyc_pk_analysis <- renderLeaflet({
+      new_num_scale <- num_scale()  
+    
       main_map() %>% 
       leaflet() %>% 
         setView(lat = 40.7128, lng = -74.0060, zoom = 10) %>% 
         addProviderTiles("CartoDB.Positron") %>% 
         addPolygons(stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
-                    color = ~pk_seats_pal(seats_per_nta))%>% 
-        addLegend(data = map_and_pk_and_pop,
+                    #color = ~pk_seats_pal(seats_per_nta))%>%
+                    color = ~new_num_scale(seats_per_nta))%>%
+        addLegend(data = main_map(),
                   position = "topleft", 
-                  pal = pk_seats_pal, 
+                  # pal = pk_seats_pal, 
+                  pal = new_num_scale,
                   values = ~seats_per_nta, 
                   title = "Pre-K Seats per NTA",
                   opacity = 1)
