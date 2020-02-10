@@ -67,10 +67,10 @@ map_and_pk_and_pop <- inner_join(x = pk_by_nta, y = map_and_pop, by = c("nta" = 
 
 
 # set up palette for map
-pk_seats_pal <- colorNumeric(
-  palette = "Blues",
-  domain = map_and_pk_and_pop$seats_per_nta
-)
+# pk_seats_pal <- colorNumeric(
+#   palette = "Blues",
+#   domain = map_and_pk_and_pop$seats_per_nta
+# )
 
 # highlight bottom 5 ntas -> which we will make programatic later
 # bottom_5 <-map_and_pk_and_pop %>% 

@@ -4,18 +4,13 @@ shinyUI(dashboardPage(
 
     dashboardSidebar(
         sidebarMenu(
-            menuItem(text = "Home", tabName = "home", icon = icon("home")),
+            #menuItem(text = "Home", tabName = "home", icon = icon("home")),
             menuItem(text = "Map", tabName = "map", icon = icon("map")),
-            menuItem(text = "Chart", tabName = "chart", icon = icon("chart-area")),
-            # menuItem(text = "Charts",
-            #          menuSubItem(
-            #              text = "Bottom Area List",
-            #              tabName = "btm_area_tbl"
-            #          ),
-            #          menuSubItem(
-            #              text = "Bottom Area Detail",
-            #              tabName = "bmt_area_dtl"
-            #          )),
+            menuItem(text = "Charts", tabName = "chart", icon = icon("chart-area")),
+            selectizeInput(inputId = "metric_option",
+                           label = "Metric Option",
+                           choices = c("Total Seats", "Population Ratio"),
+                           selected = "Total Seats"),
             selectizeInput(inputId = "bor",
                            label = "Boroughs to Show",
                            choices = boroughs,

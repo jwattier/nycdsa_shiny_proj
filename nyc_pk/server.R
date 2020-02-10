@@ -23,39 +23,89 @@ shinyServer(function(input, output, session) {
   })
   
   num_scale <- reactive({
+    
     map_tbl <- main_map()
-    pk_seats_pal <- colorNumeric(
-      palette = "Blues",
-      domain = map_tbl$seats_per_nta
-    )
+    
+      if(input$metric_option == "Total Seats"){
+        pk_seats_pal <- colorNumeric(
+          palette = "Blues",
+          domain = map_tbl$seats_per_nta
+        )
+      } else {
+        pk_seats_pal <- colorNumeric(
+          palette = "Greens",
+          domain = map_tbl$seats_per_1000
+        )
+      }
+    
+    # return(pk_seats_pal)
   })
   
   bottom_spots <- reactive({
-    main_map() %>% 
-      arrange(., seats_per_1000) %>% 
-      top_n(., n=input$min_nbr) %>% 
-      st_as_sf(x = ., sf_column_name = "geometry")
+    if(input$metric_option == "Total Seats"){
+      main_map() %>% 
+        arrange(., seats_per_nta) %>% 
+        top_n(., n=input$min_nbr) %>% 
+        st_as_sf(x = ., sf_column_name = "geometry")
+    } else {
+      main_map() %>% 
+        arrange(., seats_per_1000) %>% 
+        top_n(., n=input$min_nbr) %>% 
+        st_as_sf(x = ., sf_column_name = "geometry")
+    }
   })
   
-  
-  
-    output$nyc_pk_analysis <- renderLeaflet({
-      new_num_scale <- num_scale()  
+  map_plus_layers <- reactive({
+    # save reactive num scale to variable to pass to below function
+    new_num_scale <- num_scale() 
     
+    if(input$metric_option == "Total Seats"){
       main_map() %>% 
-      leaflet() %>% 
+        leaflet() %>% 
         setView(lat = 40.7128, lng = -74.0060, zoom = 10) %>% 
         addProviderTiles("CartoDB.Positron") %>% 
         addPolygons(stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
-                    #color = ~pk_seats_pal(seats_per_nta))%>%
                     color = ~new_num_scale(seats_per_nta))%>%
         addLegend(data = main_map(),
                   position = "topleft", 
-                  # pal = pk_seats_pal, 
                   pal = new_num_scale,
                   values = ~seats_per_nta, 
                   title = "Pre-K Seats per NTA",
-                  opacity = 1)
+                  opacity = 1)  
+    } else {
+      main_map() %>% 
+        leaflet() %>% 
+        setView(lat = 40.7128, lng = -74.0060, zoom = 10) %>% 
+        addProviderTiles("CartoDB.Positron") %>% 
+        addPolygons(stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
+                    color = ~new_num_scale(seats_per_1000))%>%
+        addLegend(data = main_map(),
+                  position = "topleft", 
+                  pal = new_num_scale,
+                  values = ~seats_per_1000, 
+                  title = "Pre-K Seats per 1k Population",
+                  opacity = 1)  
+        
+      }
+  })
+  
+  
+    output$nyc_pk_analysis <- renderLeaflet({
+      map_plus_layers()
+      # new_num_scale <- num_scale()  # save reactive num scale to variable to pass to below function
+      # 
+      # main_map() %>% 
+      # leaflet() %>% 
+      #   setView(lat = 40.7128, lng = -74.0060, zoom = 10) %>% 
+      #   addProviderTiles("CartoDB.Positron") %>% 
+      #   addPolygons(stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
+      #               color = ~new_num_scale(seats_per_nta))%>%
+      #   addLegend(data = main_map(),
+      #             position = "topleft", 
+      #             pal = new_num_scale,
+      #             values = ~seats_per_nta, 
+      #             title = "Pre-K Seats per NTA",
+      #             opacity = 1)
       # %>% 
       #   addPolygons(data = bottom_5, stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
       #               color = "red")
