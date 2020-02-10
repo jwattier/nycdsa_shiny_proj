@@ -1,6 +1,6 @@
 
 shinyUI(dashboardPage(
-    dashboardHeader(title = "NYC Pre-K School Location Analysis"),
+    dashboardHeader(title = "NYC Pre-K Analysis"),
     
     dashboardSidebar(
         sidebarMenu(
