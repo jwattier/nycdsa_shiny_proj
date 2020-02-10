@@ -77,7 +77,8 @@ shinyServer(function(input, output, session) {
         addProviderTiles("CartoDB.Positron") %>% 
         addPolygons(stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
                     color = ~new_num_scale(seats_per_nta),
-                    popup = ~as.character(seats_per_nta), label = ~as.character(seats_per_nta))%>%
+                    popup = ~paste(nta, as.character(seats_per_nta), sep = ": "), 
+                    label = ~paste(nta, as.character(seats_per_nta), sep = ": "))%>%
         addLegend(data = map_tbl,
                   position = "topleft", 
                   pal = new_num_scale,
@@ -91,7 +92,8 @@ shinyServer(function(input, output, session) {
         addProviderTiles("CartoDB.Positron") %>% 
         addPolygons(stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
                     color = ~new_num_scale(seats_per_1000),
-                    popup = ~as.character(seats_per_1000), label = ~as.character(seats_per_1000))%>%
+                    popup = ~paste(nta, as.character(round(seats_per_1000,2)), sep = ": "), 
+                    label = ~paste(nta, as.character(round(seats_per_1000,2)), sep = ": "))%>%
         addLegend(data = map_tbl,
                   position = "topleft", 
                   pal = new_num_scale,
@@ -135,7 +137,8 @@ shinyServer(function(input, output, session) {
     if(input$show){
       proxy %>% 
         addPolygons(data = btm_sf[1:min_number, ], stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
-                    color = "red", layerId = LETTERS[1:min_number])
+                    color = "red", layerId = LETTERS[1:min_number], label = ~nta, popup = ~nta
+                    )
     } else {
       proxy %>%
         removeShape(layerId = LETTERS[1:min_number])
