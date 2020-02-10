@@ -22,12 +22,10 @@ shinyUI(dashboardPage(
                            selected = "All"
                            ),
             numericInput("min_nbr","Minimum Number to Display:", value = 5,
-                         min = 1, max = 10, step = 1)
+                         min = 1, max = 10, step = 1),
+            numericInput("pop_cutoff","Population Threshold:", 
+                         value = 12000, min = 0, max = 25000, step = 1000)
         )
-
-        # numericInput(inputID = "min_pop", label = "Select Minimum Population Threshold",
-        #              value = 12000, min = 0, max = 50000, step = 2000
-        #                )
     ),
     dashboardBody(
         tabItems(

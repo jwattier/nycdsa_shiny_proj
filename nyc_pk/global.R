@@ -62,7 +62,7 @@ pk_and_pop <- inner_join(x = pk_by_nta, y = nyc_pop, by = c("nta" = "nta_name"))
 
 # combine pk school information together with map_and_pop
 map_and_pk_and_pop <- inner_join(x = pk_by_nta, y = map_and_pop, by = c("nta" = "nta_name.x")) %>% 
-  mutate(., seats_per_1000 = seats_per_nta / (population / 1000)) %>% 
+  mutate(., seats_per_1000 = if_else(condition = population == 0, true = seats_per_nta, false = seats_per_nta / (population / 1000))) %>% 
   st_as_sf(x = ., sf_column_name = "geometry") # has to be converted back to a spatial form data type
 
 

@@ -11,10 +11,11 @@
 shinyServer(function(input, output, session) {
   main_map <- reactive({
     if(input$bor != 'All'){
-      map_and_pk_and_pop <- map_and_pk_and_pop %>% filter(., borough.y == input$bor)
+      map_and_pk_and_pop <- map_and_pk_and_pop %>% filter(., borough.y == input$bor
+                                                          , population > input$pop_cutoff)
     }
     else{
-      map_and_pk_and_pop
+      map_and_pk_and_pop <- map_and_pk_and_pop %>% filter(., population > input$pop_cutoff)
     }
   })
   
@@ -38,7 +39,7 @@ shinyServer(function(input, output, session) {
                   position = "topleft", 
                   pal = pk_seats_pal, 
                   values = ~seats_per_nta, 
-                  title = "PK Seats per NTA Population",
+                  title = "Pre-K Seats per NTA",
                   opacity = 1)
       # %>% 
       #   addPolygons(data = bottom_5, stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
