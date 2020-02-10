@@ -16,7 +16,7 @@ shinyUI(dashboardPage(
                            choices = boroughs,
                            selected = "All"
                            ),
-            numericInput("min_nbr","Minimum Number to Display:", value = 5,
+            numericInput("min_nbr","Minimum Number to Highlight:", value = 5,
                          min = 1, max = 10, step = 1),
             numericInput("pop_cutoff","Population Threshold:", 
                          value = 12000, min = 0, max = 25000, step = 1000)
