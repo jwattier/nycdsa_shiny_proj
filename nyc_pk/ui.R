@@ -7,20 +7,22 @@ shinyUI(dashboardPage(
             menuItem(text = "Home", tabName = "home", icon = icon("home")),
             menuItem(text = "Map", tabName = "map", icon = icon("map")),
             menuItem(text = "Chart", tabName = "chart", icon = icon("chart-area")),
-            menuItem(text = "Charts",
-                     menuSubItem(
-                         text = "Bottom Area List",
-                         tabName = "btm_area_tbl"
-                     ),
-                     menuSubItem(
-                         text = "Bottom Area Detail",
-                         tabName = "bmt_area_dtl"
-                     )),
+            # menuItem(text = "Charts",
+            #          menuSubItem(
+            #              text = "Bottom Area List",
+            #              tabName = "btm_area_tbl"
+            #          ),
+            #          menuSubItem(
+            #              text = "Bottom Area Detail",
+            #              tabName = "bmt_area_dtl"
+            #          )),
             selectizeInput(inputId = "bor",
                            label = "Boroughs to Show",
                            choices = boroughs,
                            selected = "All"
-                           )
+                           ),
+            numericInput("min_nbr","Minimum Number to Display:", value = 5,
+                         min = 1, max = 10, step = 1)
         )
 
         # numericInput(inputID = "min_pop", label = "Select Minimum Population Threshold",

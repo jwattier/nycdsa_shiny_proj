@@ -21,7 +21,7 @@ shinyServer(function(input, output, session) {
   bottom_spots <- reactive({
     main_map() %>% 
       arrange(., seats_per_1000) %>% 
-      top_n(., n=5) %>% 
+      top_n(., n=input$min_nbr) %>% 
       st_as_sf(x = ., sf_column_name = "geometry")
   })
   
@@ -38,7 +38,7 @@ shinyServer(function(input, output, session) {
                   position = "topleft", 
                   pal = pk_seats_pal, 
                   values = ~seats_per_nta, 
-                  title = "PK Seats per 1k Population",
+                  title = "PK Seats per NTA Population",
                   opacity = 1)
       # %>% 
       #   addPolygons(data = bottom_5, stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
@@ -51,10 +51,10 @@ shinyServer(function(input, output, session) {
       if(input$show){
         proxy %>% 
           addPolygons(data = bottom_spots(), stroke = FALSE, smoothFactor = 0.2, fillOpacity = 1,
-                      color = "red", layerId = LETTERS[1:5])
+                      color = "red", layerId = LETTERS[1:input$min_nbr])
       } else {
         proxy %>%
-          removeShape(layerId = LETTERS[1:5])
+          removeShape(layerId = LETTERS[1:input$min_nbr])
       }
     })
 
@@ -101,7 +101,7 @@ shinyServer(function(input, output, session) {
         filter(., population > 12000) %>%
         mutate(., seats_per_1000 = round(seats_per_1000, 2)) %>% 
         arrange(., seats_per_1000) %>% 
-        top_n(., n=5) %>%
+        # top_n(., n=5) %>%
         # select(., "NTA Name" = nta, "Borough" = borough.y, "NTA Population" = population, "Total Schools" = schl_per_nta, 
         #        "Total Seat" = seats_per_nta) %>% 
         #arrange(., total_seats / population) %>% 

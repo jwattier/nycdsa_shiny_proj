@@ -73,7 +73,7 @@ pk_seats_pal <- colorNumeric(
 )
 
 # highlight bottom 5 ntas -> which we will make programatic later
-bottom_5 <-map_and_pk_and_pop %>% 
-  arrange(., seats_per_1000) %>% 
-  top_n(., n=5) %>% 
-  st_as_sf(x = ., sf_column_name = "geometry")
+# bottom_5 <-map_and_pk_and_pop %>% 
+#   arrange(., seats_per_1000) %>% 
+#   top_n(., n=5) %>% 
+#   st_as_sf(x = ., sf_column_name = "geometry")
