@@ -13,9 +13,14 @@ shinyServer(function(input, output, session) {
   
   
   main_map <- reactive({
-    if(input$bor != 'All'){
+    if(input$bor != 'All' & input$metric_option == "Total Population"){
       map_and_pk_and_pop <- map_and_pk_and_pop %>% filter(., borough.y == input$bor
                                                           , population > input$pop_cutoff)
+    } else if(input$bor != 'All'){
+      map_and_pk_and_pop <- map_and_pk_and_pop %>% filter(., borough.y == input$bor
+                                                          , population > input$pop_cutoff)
+    } else if(input$bor != 'All' & input$metric_option != "Total Population" ){
+      
     }
     else{
       map_and_pk_and_pop <- map_and_pk_and_pop %>% filter(., population > input$pop_cutoff)
@@ -42,18 +47,29 @@ shinyServer(function(input, output, session) {
   })
   
   bottom_spots <- reactive({
+    # if(input$metric_option == "Total Seats"){
+    #     bottom <- map_plus_layers() %>%
+    #       arrange(., seats_per_nta) %>%
+    #       top_n(., n=input$min_nbr) %>%
+    #       st_as_sf(x = ., sf_column_name = "geometry")
+    #   } else {
+    #     bottom <- map_plus_layers() %>%
+    #       arrange(., seats_per_1000) %>%
+    #       top_n(., n=input$min_nbr) %>%
+    #       st_as_sf(x = ., sf_column_name = "geometry")
+    
     if(input$metric_option == "Total Seats"){
-      main_map() %>% 
-        arrange(., seats_per_nta) %>% 
-        top_n(., n=input$min_nbr) %>% 
+      bottom <- main_map() %>%
+        arrange(., seats_per_nta) %>%
+        top_n(., n=input$min_nbr) %>%
         st_as_sf(x = ., sf_column_name = "geometry")
-    } else {
-      main_map() %>% 
-        arrange(., seats_per_1000) %>% 
-        top_n(., n=input$min_nbr) %>% 
+      } else {
+      bottom <- main_map() %>%
+        arrange(., seats_per_1000) %>%
+        top_n(., n=input$min_nbr) %>%
         st_as_sf(x = ., sf_column_name = "geometry")
-    }
-  })
+      }
+    })
   
   map_plus_layers <- reactive({
     # save reactive num scale to variable to pass to below function
