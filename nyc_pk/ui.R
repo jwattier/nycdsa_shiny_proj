@@ -1,7 +1,7 @@
 
 shinyUI(dashboardPage(
     dashboardHeader(title = "NYC Pre-K School Location Analysis"),
-
+    
     dashboardSidebar(
         sidebarMenu(
             #menuItem(text = "Home", tabName = "home", icon = icon("home")),
@@ -33,19 +33,19 @@ shinyUI(dashboardPage(
                         This analysis combines the latest census from 2010 then pre-school location as of 2018 to
                         identify areas where there are relatively fewer seats.
                         ", style="text-align:center; font-family: times"
-                        ),
-                        br(),
-                        # a(href = "https://www.schools.nyc.gov/enrollment/enroll-grade-by-grade/pre-k"
-                        #   , "Here",target="_blank")
-                        # ,style="text-align:center;color:black")
-                        p("For more information please check the",em("NYC's DOE"),"page by clicking",
-                          br(),
-                          a(href="https://www.schools.nyc.gov/enrollment/enroll-grade-by-grade/pre-k", "here",target="_blank")
-                          ,style="text-align:center;color:black")
-                        ,
-                        width = 8
+                    ),
+                    br(),
+                    # a(href = "https://www.schools.nyc.gov/enrollment/enroll-grade-by-grade/pre-k"
+                    #   , "Here",target="_blank")
+                    # ,style="text-align:center;color:black")
+                    p("For more information please check the",em("NYC's DOE"),"page by clicking",
+                      br(),
+                      a(href="https://www.schools.nyc.gov/enrollment/enroll-grade-by-grade/pre-k", "here",target="_blank")
+                      ,style="text-align:center;color:black")
+                    ,
+                    width = 8
                     )
-                
+                    
             ),
             tabItem(tabName = "map",
                     fluidPage(
@@ -54,27 +54,27 @@ shinyUI(dashboardPage(
                         br(),
                         checkboxInput("show", "Highlight Lowest", value = FALSE),
                         DT::dataTableOutput("btm_lst")
-                        )
-                    ),
-            tabItem(tabName = "chart",
-                fluidRow(box(
-                    status = "primary",
-                    width = 12,
-                    plotOutput("nyc_seats_hist")
-                    )),
-                fluidRow(
-                    width = 12,
-                    plotOutput("nyc_seats_box_by_bor")
                     )
-                ),
+            ),
+            tabItem(tabName = "chart",
+                    fluidRow(box(
+                        status = "primary",
+                        width = 12,
+                        plotOutput("nyc_seats_hist")
+                    )),
+                    fluidRow(
+                        width = 12,
+                        plotOutput("nyc_seats_box_by_bor")
+                    )
+            ),
             tabItem(tabName = 'btm_area_tbl',
                     fluidRow(
                         box(width = 12,
                             DT::dataTableOutput("btm_nta"))
                     ))
         )
-
-        )
+        
     )
+)
 )
 # )
